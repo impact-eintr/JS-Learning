@@ -191,69 +191,129 @@ a[1][2]
 4
 ~~~
 
+### map & set
+map == std::map
+~~~ javascript
+let scoretable = new Map(
+            [['tom',100],
+            ['jack',90],
+            ['eintr',80]]
+);
+
+let score1 = scoretable.get("eintr");
+
+document.writeln(score1);
+~~~
+
+set == std::set
 
 ~~~ javascript
+set.add(2);
+set.dalete(1);
+set.has(3);//是否包含某个元素
+~~~
+
+### iterator
+遍历数组
+~~~ javascript
+var arr = [3,4,5]
+for (var x of arr){
+    console.log(x);
+}
+~~~
+遍历map
+~~~ javascript
+var map = newMap([["tom",200],["jack",80]])
+for (let x of map){
+    console.log(x);
+}
+~~~
+遍历set
+~~~ javascript
+var ser = new Set([5,6,7]);
+for (let x of map){
+    console.log(x);
+}
+~~~
+
+## 对象
+### 对象声明
+~~~ javascript
+var 对象名{
+    属性名:属性值,
+    属性名:属性值,
+    属性名:属性值
+}
+
+var person = {
+    name:"eintr",
+    age:233,
+    score:100
+}
+~~~
+
+javascript 中所有的键都是字符串，值是任意对象
+
+- 对象赋值
+~~~ javascript
+person.name = "impact"
+
+person.name
+"impact"
+~~~
+
+- 使用一个不存在的对象属性，不会报错
+~~~ javascript
+person.null 
+undefined
+~~~
+
+- 动态的删减属性，通过delete删除对象的属性
+~~~ javascript
+delete persion.name
+true
+persion
+~~~
+
+- 判断属性值是否在这个对象中 xxx in XXX
+~~~ javascript
+'age' in person
+true
+~~~
+
+- 判断一个属性是否是这个对象自身拥有的 hasOwnProperty()
+~~~ javascript
+person.hasOwnProperty('toString')
+false
+
+person.hasOwnProperty('age')
+true
 
 ~~~
 
-
+## 流程控制
+- if 和c一样
+- while() 和c一样
+- do while 和c 一样
+- for 
 ~~~ javascript
-
+let N  = 10
+for(let i = 0;i < N;i++){
+    document.writeln(i);
+}
 ~~~
-
-
+- forEach()
 ~~~ javascript
-
+let arr = [1,2,3,4,5];
+arr.forEach(function(value){
+        document.writeln(value);
+});
 ~~~
-
-
+- for ... in
 ~~~ javascript
-
+for (var x in person){
+    document.writeln(x);
+}
 ~~~
-
-
-~~~ javascript
-
-~~~
-
-
-~~~ javascript
-
-~~~
-
-
-~~~ javascript
-
-~~~
-
-
-~~~ javascript
-
-~~~
-
-
-~~~ javascript
-
-~~~
-
-
-
-~~~ javascript
-
-~~~
-
-
-~~~ javascript
-
-~~~
-
-~~~ javascript
-
-~~~
-
-
-
-
-
 
 

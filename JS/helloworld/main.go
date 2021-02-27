@@ -22,5 +22,4 @@ func main() {
 	http.HandleFunc("/", index)
 
 	server.ListenAndServe()
-
 }
