@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"os"
 )
 
 func index(w http.ResponseWriter, r *http.Request) {
@@ -21,5 +22,8 @@ func main() {
 	http.Handle("/js/", http.FileServer(http.Dir("template")))
 	http.HandleFunc("/", index)
 
-	server.ListenAndServe()
+	err := server.ListenAndServe()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%s\n", err)
+	}
 }
