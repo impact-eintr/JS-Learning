@@ -74,14 +74,44 @@ var d1 = document.getElementById('id1');
 console.log(d1.innerText);
 d1.innerText = '234';
 console.log(d1);
-//d1.innerHTML = '<strong>cpp</strong>';
+d1.innerHTML = '<strong>cpp</strong>';
 
 d1.style.color = "red";
 d1.style.fontSize = '50px';
 document.writeln("<br>");
 
+
+let name = document.getElementById("username").value;
+console.log(name);
 document.writeln("<br>");
+
+function createComparisonFunc(element) {
+    return function(obj1,obj2) {
+        let val1 = obj1[element];
+        let val2 = obj2[element];
+
+        if (val1 < val2){
+            return -1;
+        }else if (val1 > val2) {
+            return 1;
+        }else {
+            return 0;
+        }
+    };
+}
 document.writeln("<br>");
+
+function compare(value1,value2) {
+    if (value1 < value2) {
+        return -1;
+    }else if (value1 > value2) {
+        return 1;
+    }else {
+        return 0;
+    }
+}
+let result = compare(5,10);
+console.log(result);
 document.writeln("<br>");
 document.writeln("<br>");
 document.writeln("<br>");

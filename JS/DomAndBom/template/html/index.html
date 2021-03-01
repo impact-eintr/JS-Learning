@@ -3,6 +3,7 @@
  <head>
      <meta charset="UTF-8">
      <title>JS-Learn</title>
+     <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
  </head>
  <body>
      <div id="id1">
@@ -17,6 +18,31 @@
          <p id="me">JavaME</p>
      </div>
 
-    <script text=javascript src="../js/main.js"></script>
+     <form action="https://www.baidu.com/" method="post" onsubmit="return subfunc()">
+         <div id="input">
+             <span>用户名:</span><input type="text" id="username">
+         </div>
+
+         <div id="passwd">
+             <span>密码:</span><input type="password" id="passwd">
+         </div>
+
+         <input type="hidden" id="md5-passwd" name="md5psw">
+
+         <button tyoe="submit">提交</button>
+     </form>
+
+    <script text=javascript>
+        function subfunc(){
+            alert(1);
+            let uname = document.getElementById('username');
+            let passwd = document.getElementById('passwd');
+            let md5psw = document.getElementById('md5-passwd');
+
+            md5psw.value = md5(passwd.value);
+            return true;
+        }
+    
+    </script>
  </body>
  </html>

@@ -68,6 +68,25 @@ xiaohei.hello()
 - 在js中，每个函数都有一个`prototype`属性，这个属性指向函数的原型对象(object指向自己)
 
 ## 闭包(难点)
+> 匿名函数经常被人误认为是 闭包(closure). ==闭包指的是那些引用了另一个函数作用域中变量的函数，通常是在嵌套函数中实现的==
+
+~~~ javascript
+function createComparisonFunc(element) {
+    return function(obj1,obj2) {
+        let val1 = obj1[element];
+        let val2 = obj2[element];
+
+        if (val1 < val2){
+            return -1;
+        }else if (val1 > val2) {
+            return 1;
+        }else {
+            return 0;
+        }
+    };
+}
+~~~
+内部函数引用了外部函数的变量，这个内部函数被返回并在其他地方被使用后，**仍然引用着那个变量。**
 
 ## 箭头函数(新特性)
 
@@ -194,10 +213,65 @@ var father = p1.parentElement;
 father.removeChild(p1);
 ~~~
 
-### 插入Dom节点
-
 
 ### 操作表单
+> 表单 form DOM树
+- 文本框 text
+- 下拉框 select
+- 单选框 radio
+- 多选框 chechbox
+- 隐藏框 hidden
+- 密码框 password
+~~~ html 
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <title>JS-Learn</title>
+     <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+ </head>
+ <body>
+     <div id="id1">
+         hello world!
+     </div>
 
-### 操作文件
+     <p id="js">JavaScript</p>
+
+     <div id="list">
+         <p id="se">JavaSE   </p>
+         <p id="ee">JavaEE</p>
+         <p id="me">JavaME</p>
+     </div>
+
+     <form action="https://www.baidu.com/" method="post" onsubmit="return subfunc()">
+         <div id="input">
+             <span>用户名:</span><input type="text" id="username">
+         </div>
+
+         <div id="passwd">
+             <span>密码:</span><input type="password" id="passwd">
+         </div>
+
+         <input type="hidden" id="md5-passwd" name="md5psw">
+
+         <button tyoe="submit">提交</button>
+     </form>
+
+    <script text=javascript>
+        function subfunc(){
+            alert(1);
+            let uname = document.getElementById('username');
+            let passwd = document.getElementById('passwd');
+            let md5psw = document.getElementById('md5-passwd');
+
+            md5psw.value = md5(passwd.value);
+            return true;
+        }
+    
+    </script>
+ </body>
+ </html>
+
+~~~
+
 
