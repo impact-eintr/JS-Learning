@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>HelloWorld!</title>
-    <!--这里也可以存放-->
 </head>
 <body>
-
     <div id="app">
-        <button v-on:click="hello">点击</button>
+        <eintr v-for="item in items" v-bind:val="item"></eintr>
     </div>
+
     <!--引入Vue.js-->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script text=javascript src="../js/main.js"></script>
