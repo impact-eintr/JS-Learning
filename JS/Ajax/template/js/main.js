@@ -8,7 +8,7 @@ window.onload = () => {
 function loadPage(){
     let targetUrl = document.getElementById('url').value;
     console.log(targetUrl);
-    document.getElementById('ifr')
+    document.getElementById('iframePosition').src = targetUrl;
 
 }
 document.writeln("<br>");

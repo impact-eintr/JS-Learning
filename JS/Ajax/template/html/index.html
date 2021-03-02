@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>HelloWorld!</title>
-    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
     <!--这里也可以存放-->
-    <style>
-        #divMove{
-            width: 500px;
-            height: 500px;
-            border: 2px solid red;
-        }
-    </style>
 </head>
 <body>
 
     <p>清输入要加载的地址：<span id="curtime"></span> </p>
     <p>
-    <input type="text" id="url" value="">
-    <input type="button" value="提交" onclick="loadPage()">
+        <input type="text" id="url" value="">
+        <input type="button" value="提交" onclick="loadPage()">
     </p>
+
+    <div>
+        <h3>
+            加载页面的位置
+        </h3>
+        <iframe id="iframePosition" style="width: 100%;height: 500px" frameborder="1">
+        
+        </iframe>
+    </div>
 
     <script text=javascript src="../js/main.js"></script>
 </body>
 </html>
+
