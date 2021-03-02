@@ -86,9 +86,44 @@ function createComparisonFunc(element) {
     };
 }
 ~~~
-内部函数引用了外部函数的变量，这个内部函数被返回并在其他地方被使用后，**仍然引用着那个变量。**
+内部函数引用了外部函数的变量，这个内部函数被返回并在其他地方被使用后，**仍然引用着那个变量。这是因为内部函数的作用域链包含createComparisonFuction()函数的作用域。**
+
+> 函数执行过程
+函数在执行值。每个执行上下文都会有一个包含其中变量的对象。全局上下文中的叫`变量对象`，它会在代码执行期间始终存在。而函数局部上下文中的叫活动对象，只在函数执行期间存在。
+在定义一个函数时，js会为它创建作用域链，预装载全局变量对象，只在函数执行期间存在。在调用该函数时，会创建相应的执行上下文，然后通过复制函数的`[[Scope]]`来创建其作用域，然后将新创建的函数的活动对象推入作用域。
+
+
+
 
 ## 箭头函数(新特性)
+> 箭头函数可以极大地简化函数的语法
+~~~ javascript
+//原始实现
+var circleAreaES5 = function circleArea(r){
+    var PI = 3.14;
+    var area = PI * r * r;
+    return area;
+};
+console.log(circleAreaES5(2));
+//箭头函数
+const circleArea = r => {
+    const PI = 3.14;
+    const area = PI * r * r;
+    return area;
+};
+console.log(circleArea())
+~~~
+
+> 如果函数只有一条语句则可以将`return`省略
+~~~ javascript
+const circleArea2 = r => 3.14 * r * r;
+console.log(circleArea2(2));
+~~~
+
+> 如果函数不接收任何参数，可以使用一对空的`()`
+~~~ javascript
+const hello = () => console.log("hello!");
+~~~
 
 ## 操作Dom元素
 - IE
@@ -273,5 +308,4 @@ father.removeChild(p1);
  </html>
 
 ~~~
-
 
