@@ -6,8 +6,10 @@
 </head>
 <body>
     <div id="app">
-        <h2>curtime1 : {{curtime1}}</h2>
-        <h2>curtime2 : {{curtime2()}}</h2>
+        <todo>
+                <todo-title slot="todo-title" v-bind:title="title"></todo-title>
+                <todo-items slot="todo-items" v-for="(item,index) in todoItems" :item="item" :index="index" @remove="rme(index)" :key="index"></todo-items>
+        </todo>
     </div>
 
     <!--引入Vue.js-->
