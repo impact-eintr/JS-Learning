@@ -2,16 +2,11 @@
 
 let vm = new Vue({
             el: "#app",
-            data(){
-                return{
-                    info: {
-                        name: null,
-                        url: null
-                    }
-                }
+            computed: {
+                curtime1: () => Date.now()
             },
-            mounted(){
-                axios.get('data.json').then(response=>(this.info=response.data));
+            methods: {
+                curtime2: () => Date.now()
             }
 });
 
