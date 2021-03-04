@@ -1,0 +1,208 @@
+<!--********************************************************************
+* Copyright© 2000 - 2021 SuperMap Software Co.Ltd. All rights reserved.
+*********************************************************************-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title data-i18n="resources.title_symbolGeometricQuery"></title>
+</head>
+<body style=" margin: 0;overflow: hidden;background: #fff;width: 100%;height:100%;position: absolute;top: 0;">
+<div id="toolbar" class="panel panel-primary"
+     style="  position: absolute;top: 10px;right: 10px;text-align: center;z-index: 9999;border-radius: 4px;">
+    <div class='panel-heading' id="panelheading">
+        <h5 class='panel-title text-center' data-i18n="resources.title_symbolGeometricQuery"></h5>
+    </div>
+    <div class='panel-body content' id="panelbodycontent">
+        <input type="button" class="btn btn-default" data-i18n="[value]resources.btn_polygon" onclick="drawPolygon()"/>
+        <input type="button" class="btn btn-default" data-i18n="[value]resources.btn_circle" onclick="drawCircle()"/>
+        <input type="button" class="btn btn-default" data-i18n="[value]resources.btn_rectangle" onclick="drawRectangle()"/>
+        <input type="button" class="btn btn-default" data-i18n="[value]resources.btn_cancel" onclick="cancle()"/>
+    </div>
+</div>
+<div id="map" style="margin:0 auto;width: 100%;height: 100%"></div>
+<script type="text/javascript" include="bootstrap" src="../js/include-web.js"></script>
+<script type="text/javascript" include="iclient-plot-leaflet" src="../../dist/leaflet/include-leaflet.js"></script>
+<script type="text/javascript">
+    var host = window.isLocal ? window.server : "https://iserver.supermap.io";
+    var url = host + "/iserver/services/map-china400/rest/maps/China_4326";
+    var serverUrl = host + "/iserver/services/plot-jingyong/rest/plot/";
+    var map = L.map('map', {
+        preferCanvas: true,
+        crs: L.CRS.EPSG4326,
+        center: [35,104],
+        maxZoom: 18,
+        zoom: 3
+    });
+    L.supermap.tiledMapLayer(url).addTo(map);
+    var plottingLayer = L.supermap.plotting.plottingLayer("plot", serverUrl);
+    plottingLayer.addTo(map);
+    var queryPlottingLayer = L.supermap.plotting.plottingLayer("plot", serverUrl);
+    queryPlottingLayer.addTo(map);
+    var drawControl = L.supermap.plotting.drawControl(queryPlottingLayer);
+    drawControl.addTo(map);
+    var plotting = L.supermap.plotting.getControl(map, serverUrl);
+    function loadSymbolLib() {
+        var symbolLibManager = plotting.getSymbolLibManager();
+        symbolLibManager.libIDs = [421];
+        symbolLibManager.on(SuperMap.Plot.Event.initializecompleted,symbolLibInitializeCompleted);
+        symbolLibManager.initializeAsync();
+    }
+
+    function symbolLibInitializeCompleted() {
+        var libID = 421;
+        var code = 20100;
+        var symbolData = null;
+        SuperMap.Plot.PlottingUtil.getDataFromServer(serverUrl, libID, code, null, {}, null,
+            function (result) {
+                symbolData = result.result;
+                //绘制点标号
+                plotSymbol(libID, code, symbolData);
+            }, null);
+    }
+
+    function plotSymbol(libID, code, symbolData) {
+
+        var dotSymbol;
+        for (var i = 0; i < 20; i++) {
+            var latlngs = [];
+            var x = Math.random() * 30+107;
+            var y = Math.random() * 30+32;
+            latlngs.push(L.latLng(y, x));
+          plottingLayer.createSymbol(libID, code, latlngs,null,{}, {symbolData: symbolData, serverUrl: serverUrl});
+        }
+
+        for (var i = 0; i < 20; i++) {
+            var latlngs = [];
+            var x = -Math.random() * 30+107;
+            var y = Math.random() * 30+32;
+            latlngs.push(L.latLng(y, x));
+            plottingLayer.createSymbol(libID, code, latlngs,null,{}, {
+                symbolData: symbolData,
+                serverUrl: serverUrl
+            });
+        }
+
+        for (var i = 0; i < 20; i++) {
+            var latlngs = [];
+            var x = Math.random() *  30+107;
+            var y = -Math.random() * 30+32;
+            latlngs.push(L.latLng(y, x));
+             plottingLayer.createSymbol(libID, code, latlngs,null,{}, {
+                symbolData: symbolData,
+                serverUrl: serverUrl
+            });
+        }
+
+        for (var i = 0; i < 20; i++) {
+            var latlngs = [];
+            var x = -Math.random() * 30+107;
+            var y = -Math.random() * 30+32;
+            latlngs.push(L.latLng(y, x));
+           plottingLayer.createSymbol(libID, code, latlngs,null,{}, {
+                symbolData: symbolData,
+                serverUrl: serverUrl
+            });
+        }
+
+    }
+
+
+    //设置选择区域的线色
+    function setDefualtStyle() {
+        var defualtStyle = plotting.getDefaultStyle();
+        defualtStyle.defaultFlag = true;
+        defualtStyle.lineColor = "#00FF00";
+    }
+
+    function drawPolygon() {
+        setDefualtStyle();
+        resetGeometryStyle();
+        drawControl.handler.disable();
+        drawControl.handler.libID = 0;
+        drawControl.handler.code = 32;
+        drawControl.handler.serverUrl = serverUrl;
+        drawControl.handler.enable();
+    }
+
+    function drawCircle() {
+        setDefualtStyle();
+        resetGeometryStyle();
+        drawControl.handler.disable();
+        drawControl.handler.libID = 0;
+        drawControl.handler.code = 29;
+        drawControl.handler.serverUrl = serverUrl;
+        drawControl.handler.enable();
+    }
+
+    function drawRectangle() {
+        setDefualtStyle();
+        resetGeometryStyle();
+        drawControl.handler.disable();
+        drawControl.handler.libID = 0;
+        drawControl.handler.code = 26;
+        drawControl.handler.serverUrl = serverUrl;
+        drawControl.handler.enable();
+    }
+
+    //重置选择的区域内的标号的线色
+    var queryResult = [];
+
+    function resetGeometryStyle() {
+        for (var i = 0; i < queryResult.length; i++) {
+            queryResult[i].setStyle({color: "#FF0000"});
+        }
+        queryResult = [];
+    }
+
+    function clearStatus() {
+        drawControl.handler.disable();
+        //删除查询的几何图形
+
+    }
+
+    //取消查询状态
+    function cancle() {
+        resetGeometryStyle();
+        clearStatus();
+    }
+
+    drawControl.on(SuperMap.Plot.Event.featureadded, function (event) {
+        var layer = event.feature;
+        var latLngs = layer.getLatLngs();
+        var symbolType = layer.symbolType;
+        queryPlottingLayer.removeFeatures(layer);
+        if (symbolType === SuperMap.Plot.SymbolType.ARBITRARYPOLYGONSYMBOL) {
+            queryResult = L.supermap.plotting.query(map).getGObjectsInPolygon(latLngs);
+        }
+        if (symbolType === SuperMap.Plot.SymbolType.CIRCLESYMBOL) {
+            var radius = Math.sqrt(Math.pow(latLngs[1].lng - latLngs[0].lng, 2) + Math.pow(latLngs[1].lat - latLngs[0].lat, 2));
+            queryResult = L.supermap.plotting.query(map).getGObjectsInCircle(latLngs[0], radius);
+        }
+        if (symbolType === SuperMap.Plot.SymbolType.RECTANGLESYMBOL) {
+            queryResult = L.supermap.plotting.query(map).getGObjectsInRect(latLngs[0], latLngs[1]);
+        }
+        if (queryResult && queryResult.length !== 0) {
+            for (var i in queryResult) {
+                queryResult[i].setStyle({color: "#0000FF"});
+            }
+        }
+        plottingDrawCancel();
+
+    });
+
+    //取消标绘
+    function plottingDrawCancel() {
+        drawControl.handler.disable();
+    }
+    window.onload = function () {
+        loadSymbolLib();
+    };
+    $(document).ready(function(){
+        $('#panelheading').click(function(){
+            $('#panelbodycontent').toggle();
+        });
+    });
+</script>
+</body>
+</html>

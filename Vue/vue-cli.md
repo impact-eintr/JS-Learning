@@ -44,10 +44,19 @@ npm run dev
 
 
 
+## Webpack
+本质上，webpack是一个现代js应用程序的静态模块打包器。当webpack处理应用程序时。它会递归地构建一个依赖关系图，其中包含应用程序需要的每一个模块，然后将所有这些模块打包成一个或多个bundle
 
+### CommonsJS
+<hr>
+服务端的NodeJS遵循CommonsJS规范，该规范的核心思想时允许模块通过require方法来同步加载所需以来的其他模块，然后通过exports或者module.exports来导出需要暴露的接口
 
-
-
+~~~ javascript
+require("module");
+require("../module.js")
+export.doStuff = function(){};
+module.exports = someValue;
+~~~
 
 
 
